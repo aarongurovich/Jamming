@@ -13,20 +13,12 @@ function generateRandomString(){
     }
     return result;
 }
-export function getAccessToken(){
+export async function getAccessToken(){
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
     const accessToken = params.get('access_token');
-    const tokenType = params.get('token_type');
-    const expiresIn = params.get('expires_in');
-    const state = params.get('state');
-  
-    return {
-        accessToken,
-        tokenType,
-        expiresIn,
-        state
-    };
+    return accessToken;
+    ;
 }
 
 export default function Spotify(){
