@@ -9,8 +9,8 @@ export default function App(){
 
     return (
         <>
-        <h1>Roman is Gay</h1>
-        <a href={Spotify()}>Yes He IS ^</a>
+        <h1>Hey</h1>
+        <a href={Spotify()}>Click This!</a>
         </>
     );
 }
