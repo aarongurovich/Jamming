@@ -13,27 +13,12 @@ function generateRandomString(){
     }
     return result;
 }
-export async function getAccessToken() {
-  const hash = window.location.hash.substring(1);
-  const params = new URLSearchParams(hash);
-  const accessToken = params.get('access_token');
-  const expiresIn = params.get('expires_in');
-
-  if (accessToken && expiresIn) {
-      const expirationTime = new Date().getTime() + expiresIn * 1000;
-      localStorage.setItem('spotify_access_token', accessToken);
-      localStorage.setItem('spotify_token_expiration', expirationTime);
-      return accessToken;
-  }
-
-  const storedToken = localStorage.getItem('spotify_access_token');
-  const storedExpiration = localStorage.getItem('spotify_token_expiration');
-
-  if (storedToken && storedExpiration && new Date().getTime() < storedExpiration) {
-      return storedToken;
-  }
-
-  return null;
+export async function getAccessToken(){
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get('access_token');
+    return accessToken;
+    ;
 }
 
 export default function Spotify(){

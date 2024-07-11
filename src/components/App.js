@@ -6,31 +6,33 @@ export default function App() {
     const [token, setToken] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
-    useEffect(() => {
-        async function fetchToken() {
-            try {
-                const tokenData = await getAccessToken();
-                if (tokenData) {
-                    setToken(`Bearer ${tokenData}`);
-                } else {
-                   
-                    const clientId = '3382493d2f4b4131a180974372a2f024';
-                    const redirectUri = 'http://localhost:3000/';
-                    const authEndpoint = 'https://accounts.spotify.com/authorize';
-                    const scopes = [
-                        'user-read-private',
-                        'user-read-email',
-                        'playlist-modify-public',
-                        'playlist-modify-private'
-                    ];
-                    window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
-                }
-            } catch (error) {
-                console.error('Error fetching token:', error);
+    async function fetchToken() {
+        try {
+            const tokenData = await getAccessToken();
+            if (tokenData) {
+                setToken(`Bearer ${tokenData}`);
+            } else {
+               
+                const clientId = '3382493d2f4b4131a180974372a2f024';
+                const redirectUri = 'http://localhost:3000/';
+                const authEndpoint = 'https://accounts.spotify.com/authorize';
+                const scopes = [
+                    'user-read-private',
+                    'user-read-email',
+                    'playlist-modify-public',
+                    'playlist-modify-private'
+                ];
+                window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
             }
+        } catch (error) {
+            console.error('Error fetching token:', error);
         }
+    }
+
+    useEffect(() => {
         fetchToken();
     }, []);
+
 
     async function fetchSpotifyData(searchTerm) {
         const baseURL = "https://api.spotify.com/v1/search";
@@ -62,6 +64,9 @@ export default function App() {
         <>
             <h1>Spotify Search Results</h1>
             <SearchBar onSearch={fetchSpotifyData} />
+            <button onClick={fetchToken}>Get New Token</button>
+            <button onClick= {() => setToken(null)}>Clear Old Token</button>
+            <p>{token}</p>
             <ul>
                 {searchResults.map(item => (
                     <li key={item.id}>
